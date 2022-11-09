@@ -14,12 +14,24 @@ end
 local packer_bootstrap = ensure_packer()
 
 vim.g.mapleader = ' '
-vim.keymap.set('n', '<c-x>o', '<cmd>:wincmd w<cr>', {})
-vim.keymap.set('n', '<c-x>0', '<cmd>:wincmd q<cr>', {})
-vim.keymap.set('n', '<c-x>1', '<cmd>:wincmd o<cr>', {})
-vim.keymap.set('n', '<c-x>2', '<cmd>:wincmd s<cr>', {})
-vim.keymap.set('n', '<c-x>3', '<cmd>:wincmd v<cr>', {})
-vim.keymap.set('n', '<c-x><c-s>', '<cmd>:w<cr>', {})
+
+function keymap_set_all(keymap) 
+   for i, mode in ipairs({ 'n', 'i', 't' }) do
+      for lhs, config in pairs(keymap) do
+	 vim.keymap.set(mode, lhs, config[1], config[2])
+      end
+   end
+end
+
+keymap_set_all({
+      ['<c-x>o'] = { '<cmd>:wincmd w<cr>', {} },
+      ['<c-x>0'] = { '<cmd>:wincmd q<cr>', {} },
+      ['<c-x>1'] = { '<cmd>:wincmd o<cr>', {} }, 
+      ['<c-x>2'] = { '<cmd>:wincmd s<cr>', {} },
+      ['<c-x>3'] = { '<cmd>:wincmd v<cr>', {} },
+      ['<c-x><c-s>'] = { '<cmd>:w<cr>', {} },
+})
+
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>', {})
 
 vim.api.nvim_create_augroup('terminal', { clear = true })
@@ -183,10 +195,12 @@ return require('packer').startup(
 		  },
 	       }
 				      })
-	    vim.keymap.set('n', '<c-x>p', builtin.find_files, {})
-	    vim.keymap.set('n', '<c-x>g', builtin.live_grep, {})
-	    vim.keymap.set('n', '<c-x>b', builtin.buffers, {})
-	    vim.keymap.set('n', '<c-s>', builtin.current_buffer_fuzzy_find, {})
+	    keymap_set_all({
+		  ['<c-x>p'] = { builtin.find_files, {} },
+		  ['<c-x>g'] = { builtin.live_grep, {} },
+		  ['<c-x>b'] = { builtin.buffers, {} },
+		  ['<c-s>'] = { builtin.current_buffer_fuzzy_find, {} },
+	    })
 	 end
       }
 
