@@ -31,15 +31,14 @@ require("lazy").setup({
 				defaults = require("telescope.themes").get_dropdown()
 			})
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+			vim.keymap.set("n", "<leader>f", builtin.find_files, {})
+			vim.keymap.set("n", "<leader>g", builtin.live_grep, {})
 			vim.keymap.set("n", "<leader>b", builtin.buffers, {})
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 			vim.keymap.set("n", "<leader>s", builtin.current_buffer_fuzzy_find, {})
 			vim.keymap.set("n", "<leader>t", builtin.treesitter, {})
 		end
 	},
-        {
+	{
 		'nvim-telescope/telescope-fzf-native.nvim',
 		build = 'make',
 		config = function()
@@ -114,6 +113,8 @@ require("lazy").setup({
 
 			lsp_zero.on_attach(function(client, bufnr)
 				-- see :help lsp-zero-keybindings
+				vim.keymap.set("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr })
+				vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr })
 				lsp_zero.default_keymaps({ buffer = bufnr })
 			end)
 
