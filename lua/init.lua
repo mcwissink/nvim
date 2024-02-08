@@ -34,6 +34,11 @@ require("lazy").setup({
 		config = function()
 			require("telescope").setup({
 				defaults = require("telescope.themes").get_dropdown(),
+				extensions = {
+					file_browser = {
+						hidden = true
+					}
+				}
 			})
 			require("telescope").load_extension("ui-select")
 			require("telescope").load_extension("undo")
