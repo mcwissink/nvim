@@ -36,7 +36,8 @@ require("lazy").setup({
 				defaults = require("telescope.themes").get_dropdown(),
 				extensions = {
 					file_browser = {
-						hidden = true
+						hidden = true,
+						dir_icon = ""
 					}
 				}
 			})
